@@ -107,7 +107,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 :: 6. Grunt build
 IF EXIST “%DEPLOYMENT_TARGET%\Gruntfile.js” (
    pushd “%DEPLOYMENT_TARGET%”
-  call :ExecuteCmd grunt Default
+  call :ExecuteCmd grunt
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
