@@ -104,21 +104,13 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
-:: 4. Install bower packages
-if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
-  eval $NPM_CMD install bower
-  exitWithMessageOnError "installing bower failed"
-  ./node_modules/.bin/bower install
-  exitWithMessageOnError "bower failed"
-fi
-
-::# 5. Run grunt
-if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
-  eval $NPM_CMD install grunt-cli
-  exitWithMessageOnError "installing grunt failed"
-  ./node_modules/.bin/grunt --no-color clean common dist
-  exitWithMessageOnError "grunt failed"
-fi
+:: 6. Grunt build
+IF EXIST “%DEPLOYMENT_TARGET%\Gruntfile.js” (
+   pushd “%DEPLOYMENT_TARGET%”
+  call :ExecuteCmd grunt devBuild
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Post deployment stub
