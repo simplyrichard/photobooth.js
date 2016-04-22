@@ -108,9 +108,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 IF EXIST “%DEPLOYMENT_TARGET%\Gruntfile.js” (
    pushd “%DEPLOYMENT_TARGET%”
   call :ExecuteCmd grunt
-  IF !ERRORLEVEL! NEQ 0 
-  echo Unable to grunt.
-  goto error
+  IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
 
