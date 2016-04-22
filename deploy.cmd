@@ -104,14 +104,13 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
-:: 6. Grunt build
-IF EXIST “%DEPLOYMENT_TARGET%\Gruntfile.js” (
-   pushd “%DEPLOYMENT_TARGET%”
-  call :ExecuteCmd grunt
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
 
+IF EXIST “%DEPLOYMENT_TARGET%\Gruntfile.js” (
+  call !NPM_CMD! install grunt
+  IF !ERRORLEVEL! NEQ 0 goto error
+  call .\node_modules\.bin\grunt 
+  IF !ERRORLEVEL! NEQ 0 goto error
+)
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :: Post deployment stub
